@@ -91,63 +91,7 @@ function submitForm(event) {
     // Si oui, set isLoggedIn flag dans localStorage to true et redirige vers index.html
     localStorage.setItem("isLoggedIn", true);
     window.location.href = "index.html";
-  } else {
-    // Sinon, display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.style.display = "block";
-  }
-}
-
-// login form element
-const loginForm = document.querySelector('.login-form');
-
-// event listener pour le form submit event
-loginForm.addEventListener('submit', function(event) {
-  // Prevent the default form submit action
-  event.preventDefault();
-
-  // email and password input elements
-  const emailInput = loginForm.querySelector('#email-input');
-  const passwordInput = loginForm.querySelector('#password-input');
-
-  // email and password values
-  const emailValue = emailInput.value.trim();
-  const passwordValue = passwordInput.value.trim();
-
-  // Méthode post
-  fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email: emailValue, password: passwordValue })
-  })
-  .then(response => {
-    // Vérifie la réponse
-    if (response.ok) {
-      // Redirige vers la page principale si oui
-      window.location.href = '/index.html';
-
-      // Obtient le token d'authentification
-      const authToken = response.headers.get('Authorization');
-
-      // Sauvegarde dans le local storage
-      localStorage.setItem('authToken', authToken);
-    } else {
-      // Sinon, message d'erreur
-      const errorMessage = document.querySelector('#error-message');
-      errorMessage.style.display = 'block';
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-});
-
-// check if user is logged in
-if (localStorage.getItem("isLoggedIn") === "true") {
-
-  // add black bar to top of page
+      // add black bar to top of page
   const blackBar = document.createElement("div");
   blackBar.style.height = "59px";
   blackBar.style.width = "100%";
@@ -204,4 +148,57 @@ if (localStorage.getItem("isLoggedIn") === "true") {
   // remove category buttons
   const categoryButtons = document.querySelectorAll(".category-button");
   categoryButtons.forEach(button => button.remove());
+
+
+  } else {
+    // Sinon, display error message
+    const errorMessage = document.getElementById("error-message");
+    errorMessage.style.display = "block";
+  }
 }
+
+// login form element
+const loginForm = document.querySelector('.login-form');
+
+// event listener pour le form submit event
+loginForm.addEventListener('submit', function(event) {
+  // Prevent the default form submit action
+  event.preventDefault();
+
+  // email and password input elements
+  const emailInput = loginForm.querySelector('#email-input');
+  const passwordInput = loginForm.querySelector('#password-input');
+
+  // email and password values
+  const emailValue = emailInput.value.trim();
+  const passwordValue = passwordInput.value.trim();
+
+  // Méthode post
+  fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: emailValue, password: passwordValue })
+  })
+  .then(response => {
+    // Vérifie la réponse
+    if (response.ok) {
+      // Redirige vers la page principale si oui
+      window.location.href = '/index.html';
+
+      // Obtient le token d'authentification
+      const authToken = response.headers.get('Authorization');
+
+      // Sauvegarde dans le local storage
+      localStorage.setItem('authToken', authToken);
+    } else {
+      // Sinon, message d'erreur
+      const errorMessage = document.querySelector('#error-message');
+      errorMessage.style.display = 'block';
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
