@@ -9,23 +9,38 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/e83ecdb4ca.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <header>
+	<div id="top-bar">
+		<div class="edition-mode">
+			<i class="fa-solid fa-pen-to-square"></i>
+			<p>Mode édition</p>
+		</div>
+		<div class="publish-button">
+			<input type="submit" value="Publier les changements" class="publish">
+		</div>
+	</div>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
 			<li class="login-nav"><a href="login.html">login</a></li>
+			<li class="logout">logout</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
 <main>
 	<section id="introduction">
-		<figure>
+		<figure class="figure-display">
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<div class="modification-display-image">
+				<i class="fa-solid fa-pen-to-square"></i>
+				<p class="modify">modifier</p>
+			</div>
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -35,7 +50,13 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="project-display">
+			<h2>Mes Projets</h2>
+			<div class="modification-display-project">
+				<i class="fa-solid fa-pen-to-square"></i>
+				<p class="modify">modifier</p>
+			</div>
+		</div>
 		<div class="gallery">
 		</div>
 	</section>

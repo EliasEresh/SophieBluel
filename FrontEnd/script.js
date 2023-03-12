@@ -78,7 +78,7 @@ fetch(worksUrl)
 
 document.querySelector("#portfolio").insertBefore(categorySelect, gallery);
 
-//local storage
+//local storage (Partie 2)
 
 function submitForm(event) {
   event.preventDefault(); // Prevent form from submitting normally
@@ -86,119 +86,73 @@ function submitForm(event) {
   const email = document.getElementById("email-input").value;
   const password = document.getElementById("password-input").value;
 
-  // Vérifie si l'email et le password sont corrects
-  if (email === "sophie.bluel@test.tld" && password === "S0phie") {
-    // Si oui, set isLoggedIn flag dans localStorage to true et redirige vers index.html
-    localStorage.setItem("isLoggedIn", true);
-    window.location.href = "index.html";
-      // add black bar to top of page
-  const blackBar = document.createElement("div");
-  blackBar.style.height = "59px";
-  blackBar.style.width = "100%";
-  blackBar.style.backgroundColor = "black";
-  blackBar.style.position = "fixed";
-  blackBar.style.top = "0";
-  blackBar.style.left = "0";
-  blackBar.style.display = "flex";
-  blackBar.style.alignItems = "center";
-  document.body.prepend(blackBar);
-
-  // add "Mode édition" text to black bar
-  const modeEdition = document.createElement("div");
-  modeEdition.innerText = "Mode édition";
-  modeEdition.style.color = "white";
-  modeEdition.style.fontSize = "16px";
-  modeEdition.style.fontWeight = "400";
-  modeEdition.style.fontFamily = "Work Sans";
-  modeEdition.style.margin = "0 auto";
-  blackBar.appendChild(modeEdition);
-
-  // add "modifier" icon after image
-  const modifierIcon1 = document.createElement("i");
-  modifierIcon1.classList.add("fa-light", "fa-pen-to-square");
-  const modifierText1 = document.createElement("span");
-  modifierText1.innerText = "modifier";
-  modifierText1.style.color = "black";
-  modifierText1.style.fontSize = "16px";
-  modifierText1.style.fontWeight = "400";
-  const imageWrapper = document.querySelector(".me-photo");
-  imageWrapper.appendChild(modifierIcon1);
-  imageWrapper.appendChild(modifierText1);
-
-  // add "modifier" icon after "Mes Projets" section
-  const modifierIcon2 = document.createElement("i");
-  modifierIcon2.classList.add("fa-light", "fa-pen-to-square");
-  const modifierText2 = document.createElement("span");
-  modifierText2.innerText = "modifier";
-  modifierText2.style.color = "black";
-  modifierText2.style.fontSize = "16px";
-  modifierText2.style.fontWeight = "400";
-  const portfolioSection = document.querySelector("#portfolio");
-  portfolioSection.appendChild(modifierIcon2);
-  portfolioSection.appendChild(modifierText2);
-
-  // replace login with logout
-  const loginLink = document.querySelector("a[href='login.html']");
-  loginLink.innerText = "logout";
-  loginLink.addEventListener("click", function() {
-    localStorage.setItem("isLoggedIn", false);
-    window.location.href = "index.html";
-  });
-
-  // remove category buttons
-  const categoryButtons = document.querySelectorAll(".category-button");
-  categoryButtons.forEach(button => button.remove());
-
-
-  } else {
-    // Sinon, display error message
-    const errorMessage = document.getElementById("error-message");
-    errorMessage.style.display = "block";
-  }
-}
-
-// login form element
-const loginForm = document.querySelector('.login-form');
-
-// event listener pour le form submit event
-loginForm.addEventListener('submit', function(event) {
-  // Prevent the default form submit action
-  event.preventDefault();
-
-  // email and password input elements
-  const emailInput = loginForm.querySelector('#email-input');
-  const passwordInput = loginForm.querySelector('#password-input');
-
-  // email and password values
-  const emailValue = emailInput.value.trim();
-  const passwordValue = passwordInput.value.trim();
-
-  // Méthode post
-  fetch('/login', {
+  // Fetch method to verify email and password with backend
+  fetch('http://localhost:5678/api/users/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: emailValue, password: passwordValue })
+    body: JSON.stringify({ email: email, password: password })
   })
   .then(response => {
-    // Vérifie la réponse
+    console.log('response', response);
+    // Check the response status
     if (response.ok) {
-      // Redirige vers la page principale si oui
-      window.location.href = '/index.html';
-
-      // Obtient le token d'authentification
-      const authToken = response.headers.get('Authorization');
-
-      // Sauvegarde dans le local storage
-      localStorage.setItem('authToken', authToken);
+      // Set the isLoggedIn flag in localStorage to true
+      localStorage.setItem("isLoggedIn", true);
+      // Redirect to index.html
+      window.location.href = "index.html";
     } else {
-      // Sinon, message d'erreur
-      const errorMessage = document.querySelector('#error-message');
-      errorMessage.style.display = 'block';
+      // Otherwise, display error message
+      const errorMessage = document.getElementById("error-message");
+      errorMessage.style.display = "block";
     }
   })
   .catch(error => {
     console.error('Error:', error);
   });
+}
+
+if (localStorage.getItem("isLoggedIn") === "true") {
+
+  // Replace login with logout
+  const logoutBtn = document.querySelector(".logout");
+logoutBtn.addEventListener("click", function() {
+  localStorage.clear();
+  window.location.href = "index.html";
 });
+
+  // Remove category buttons
+  const categoryButtons = document.querySelectorAll(".category-button");
+  categoryButtons.forEach(button => button.remove());
+
+  // Display elements with display: none
+  const topBar = document.getElementById("top-bar");
+  topBar.style.display = "flex";
+  
+  const editionMode = document.querySelectorAll(".edition-mode");
+  editionMode.forEach(element => element.style.display = "flex");
+
+  const publishButton = document.querySelector(".publish-button input[type='submit']");
+  publishButton.classList.remove("publish");
+  
+  const logout = document.querySelector(".logout");
+  logout.style.display = "block";
+  
+  const figureDisplay = document.querySelector(".figure-display");
+  figureDisplay.style.display = "flex";
+  
+  const modificationDisplayImage = document.querySelector(".modification-display-image");
+  modificationDisplayImage.style.display = "flex";
+  
+  const modify = document.querySelectorAll(".modify");
+  modify.forEach(element => element.style.display = "block");
+  
+  const modificationDisplayProject = document.querySelector(".modification-display-project");
+  modificationDisplayProject.style.display = "flex";
+
+  // Set margin for header
+  const header = document.querySelector("header");
+  header.style.margin = "95px 0 92px 0";
+}
+
