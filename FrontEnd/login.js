@@ -46,7 +46,6 @@ loginForm.addEventListener('submit', function(event) {
   });
 });
 
-// Check if user is logged in
 if (localStorage.getItem('isLoggedIn') === 'true') {
   // Show hidden elements
   const hiddenElements = document.querySelectorAll('.hidden');
@@ -60,17 +59,15 @@ if (localStorage.getItem('isLoggedIn') === 'true') {
   const categoryDiv = document.querySelector('#category-buttons');
   categoryDiv.style.display = 'none';
 
-  // Remove login link
-  const loginLink = document.querySelector("a[href='login.html']");
-  loginLink.parentElement.style.display = 'none';
+  // Remove login button
+  const loginNav = document.querySelector('.login-nav');
+  loginNav.style.display = 'none';
 }
+
 
 
 
 // Méthode post
 
 
-// Si le login est bon, faire en sorte que le header de index.html prenne une margin de 95px 0 92px 0;
 // Faire disparaître la class "category-select";
-// Faire apparaître tout ce qui est en display: none;
-// Faire disparaître login

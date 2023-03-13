@@ -117,10 +117,10 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 
   // Replace login with logout
   const logoutBtn = document.querySelector(".logout");
-logoutBtn.addEventListener("click", function() {
-  localStorage.clear();
-  window.location.href = "index.html";
-});
+  logoutBtn.addEventListener("click", function() {
+    localStorage.clear();
+    window.location.href = "index.html";
+  });
 
   // Remove category buttons
   const categoryButtons = document.querySelectorAll(".category-button");
@@ -154,5 +154,8 @@ logoutBtn.addEventListener("click", function() {
   // Set margin for header
   const header = document.querySelector("header");
   header.style.margin = "95px 0 92px 0";
-}
 
+  // Remove login button
+  const loginNav = document.querySelector('.login-nav');
+  loginNav.style.display = 'none';
+}
