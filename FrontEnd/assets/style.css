@@ -279,12 +279,8 @@ footer nav ul {
   
   #error-message {
 	color: #ff0000;
-	margin-top: 20px;
+	margin-top: 35px;
 	display: none;
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	bottom: 100px;
   }
   
   /**Admin style**/
@@ -322,17 +318,17 @@ footer nav ul {
 	margin-right: 0.5em;
   }  
 
-  .publish-button input[type="submit"].publish {
-	width: 216px;
-	height: 38px;
-	font-family: 'Syne';
-	font-weight: 700;
-	color: black;
-	background-color: white;
-	margin: 2em auto;
-	text-align: center;
-	border-radius: 60px;
-  }
+  #publish-button {
+    width: 216px;
+    height: 38px;
+    font-family: 'Syne';
+    font-weight: 700;
+    color: black;
+    background-color: white;
+    margin: 2em auto;
+    text-align: center;
+    border-radius: 60px;
+	}
 
   .logout {
 	display: none;
