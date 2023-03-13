@@ -86,7 +86,7 @@ function submitForm(event) {
   const email = document.getElementById("email-input").value;
   const password = document.getElementById("password-input").value;
 
-  // Fetch method to verify email and password with backend
+  // Fetch method pour vérifier email et password avec le backend
   fetch('http://localhost:5678/api/users/login', {
     method: 'POST',
     headers: {
@@ -100,10 +100,10 @@ function submitForm(event) {
     if (response.ok) {
       // Set the isLoggedIn flag in localStorage to true
       localStorage.setItem("isLoggedIn", true);
-      // Redirect to index.html
+      // Redirige vers index.html
       window.location.href = "index.html";
     } else {
-      // Otherwise, display error message
+      // Sinon, display error message
       const errorMessage = document.getElementById("error-message");
       errorMessage.style.display = "block";
     }
@@ -115,16 +115,12 @@ function submitForm(event) {
 
 if (localStorage.getItem("isLoggedIn") === "true") {
 
-  // Replace login with logout
+  // Remplace login par logout
   const logoutBtn = document.querySelector(".logout");
   logoutBtn.addEventListener("click", function() {
     localStorage.clear();
     window.location.href = "index.html";
   });
-
-  // Remove category buttons
-  const categoryButtons = document.querySelectorAll(".category-button");
-  categoryButtons.forEach(button => button.remove());
 
   // Display elements with display: none
   const topBar = document.getElementById("top-bar");
@@ -155,7 +151,15 @@ if (localStorage.getItem("isLoggedIn") === "true") {
   const header = document.querySelector("header");
   header.style.margin = "95px 0 92px 0";
 
-  // Remove login button
+  // Retire login button
   const loginNav = document.querySelector('.login-nav');
   loginNav.style.display = 'none';
+
+  // Retire category-select div
+  const categorySelect = document.querySelector(".category-select");
+  categorySelect.style.display = "none";
+
+  // Set margin for project-display
+  const projectDisplay = document.querySelector(".project-display");
+  projectDisplay.style.marginBottom = "92px";
 }

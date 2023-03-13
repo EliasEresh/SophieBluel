@@ -3,7 +3,7 @@ const loginForm = document.querySelector('.login-form');
 
 // event listener for the form submit event
 loginForm.addEventListener('submit', function(event) {
-  // Prevent the default form submit action
+  // Pour ne pas se logger par défaut
   event.preventDefault();
 
   // email and password input elements
@@ -22,12 +22,12 @@ loginForm.addEventListener('submit', function(event) {
     body: JSON.stringify({ email: emailValue, password: passwordValue })
   })
   .then(response => {
-    // Check the response status
+    // Vérifie the response status
     if (response.ok) {
       // Get the authentication token
       return response.json();
     } else {
-      // Otherwise, display error message
+      // Sinon, display error message
       const errorMessage = document.getElementById("error-message");
       errorMessage.style.display = "block";
       throw new Error('Login failed');
@@ -38,7 +38,7 @@ loginForm.addEventListener('submit', function(event) {
     localStorage.setItem('authToken', data.token);
     localStorage.setItem('isLoggedIn', true);
     console.log('isLoggedIn:', true);
-    // Redirect to index.html
+    // Rediriger vers index.html
     window.location.href = 'index.html';
   })
   .catch(error => {
@@ -47,7 +47,7 @@ loginForm.addEventListener('submit', function(event) {
 });
 
 if (localStorage.getItem('isLoggedIn') === 'true') {
-  // Show hidden elements
+  // Display hidden elements
   const hiddenElements = document.querySelectorAll('.hidden');
   hiddenElements.forEach(element => element.style.display = 'block');
 
@@ -55,19 +55,11 @@ if (localStorage.getItem('isLoggedIn') === 'true') {
   const header = document.querySelector('header');
   header.style.margin = '95px 0 92px 0';
 
-  // Remove category buttons
+  // Retire category buttons
   const categoryDiv = document.querySelector('#category-buttons');
   categoryDiv.style.display = 'none';
 
-  // Remove login button
+  // Retire login button
   const loginNav = document.querySelector('.login-nav');
   loginNav.style.display = 'none';
 }
-
-
-
-
-// Méthode post
-
-
-// Faire disparaître la class "category-select";
