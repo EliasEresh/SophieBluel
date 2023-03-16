@@ -49,6 +49,7 @@ fetch(categoriesUrl)
       button.style.fontFamily = "Syne";
       button.style.fontWeight = "700";
       button.style.fontSize = "16px";
+      button.style.cursor = "pointer";
 
       categorySelect.appendChild(button);
     });
@@ -163,3 +164,53 @@ if (localStorage.getItem("isLoggedIn") === "true") {
   const projectDisplay = document.querySelector(".project-display");
   projectDisplay.style.marginBottom = "92px";
 }
+
+
+// Modal
+
+const openModal = function (e) {
+  e.preventDefault();
+  const targetId = e.currentTarget.getAttribute('href').substring(1); // Enlève le leading #
+  const target = document.getElementById(targetId);
+  if (!target) {
+    console.error(`Cannot find modal element with ID ${targetId}`);
+    return;
+  }
+  target.style.display = 'flex';
+  target.removeAttribute('aria-hidden');
+  target.setAttribute('aria-modal', 'true');
+
+  // Event listener pour le modal wrapper, ferme la fenêtre quand on click en dehors
+  target.querySelector('.modal-wrapper').addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+};
+
+//Fermer la modale
+
+const closeModal = function (target) {
+  target.style.display = 'none'
+  target.setAttribute('aria-hidden', 'true')
+  target.removeAttribute('aria-modal')
+}
+
+document.querySelectorAll('.modal').forEach(a => {
+  a.addEventListener('click', openModal)
+})
+
+document.querySelectorAll('.modal-display').forEach(modal => {
+  modal.addEventListener('click', function (e) {
+    if (e.target === this) {
+      closeModal(this);
+    }
+  });
+});
+
+document.querySelectorAll('.modal-close').forEach(a => {
+  a.addEventListener('click', function (e) {
+    e.preventDefault();
+    closeModal(e.target.closest('.modal-display'));
+  });
+});
+
+
