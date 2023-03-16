@@ -166,7 +166,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 }
 
 
-// Modal
+// Modale (Partie 3)
 
 const openModal = function (e) {
   e.preventDefault();
