@@ -38,6 +38,13 @@ fetch(categoriesUrl)
             workElement.style.display = "none";
           }
         });
+
+        // Changement de couleur des boutons quand ils sont sélectionnés
+        const buttons = categorySelect.querySelectorAll("button");
+        buttons.forEach(button => {
+          button.style.backgroundColor = button.value === category ? "#1D6154" : "white";
+          button.style.color = button.value === category ? "white" : "#1D6154";
+        });
       });
 
       button.style.backgroundColor = category === "" ? "#1D6154" : "white";
@@ -213,4 +220,4 @@ document.querySelectorAll('.modal-close').forEach(a => {
   });
 });
 
-
+//Supprimer les travaux

@@ -333,6 +333,7 @@ footer nav ul {
     margin: 2em auto;
     text-align: center;
     border-radius: 60px;
+	border: none;
 	}
 
   .logout {
