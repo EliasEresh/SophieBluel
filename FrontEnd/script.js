@@ -220,4 +220,37 @@ document.querySelectorAll('.modal-close').forEach(a => {
   });
 });
 
+//Deuxième page de la modale
+
+const addPhotoButton = document.getElementById('add-photo');
+const firstElements = document.getElementById('first-elements');
+const newElements = document.getElementById('new-elements');
+const closeIcon = document.querySelector('.cross-icon');
+const arrowIcon = document.querySelector('.close-icon');
+const modal = document.getElementById('modal1');
+
+addPhotoButton.addEventListener('click', function() {
+  firstElements.style.display = 'none';
+  newElements.style.display = 'flex';
+});
+
+closeIcon.addEventListener('click', function() {
+  firstElements.style.display = 'flex';
+  newElements.style.display = 'none';
+});
+
+modal.addEventListener('click', function(event) {
+  if (event.target === modal) {
+    firstElements.style.display = 'flex';
+    newElements.style.display = 'none';
+  }
+});
+
+arrowIcon.addEventListener('click', function() {
+  firstElements.style.display = 'flex';
+  newElements.style.display = 'none';
+});
+
 //Supprimer les travaux
+
+//Ajouter un projet

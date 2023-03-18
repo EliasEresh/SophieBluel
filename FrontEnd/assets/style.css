@@ -448,7 +448,7 @@ footer nav ul {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
-	padding: 64px 64px 20px 64px;
+	padding: 25px 64px 14px 64px;
   }
   
   .modal-images > div {
@@ -505,6 +505,10 @@ footer nav ul {
 	left: 37px;
 }
 
+.trash {
+	cursor: pointer;
+}
+
 .modal-changes-container {
 	margin: 0 auto;
 	border-top: 1px solid #B3B3B3;
@@ -518,6 +522,7 @@ footer nav ul {
 	width: 237px;
 	height: 36px;
 	border: none;
+	cursor: pointer;
 }
 
 .suppress {
@@ -527,4 +532,53 @@ footer nav ul {
 	font-family: 'Syne';
 	font-size: 14px;
 	font-weight: 400;
+	cursor: pointer;
+}
+
+/**Deuxième modale**/
+
+#first-elements {
+	display: flex;
+	flex-direction: column;
+}
+
+#new-elements {
+	display: none;
+	flex-direction: column;
+}
+
+.cross-icon {
+	cursor: pointer;
+}
+
+.close-icon {
+	position: relative;
+	left: 5px;
+	background: none;
+  	border: none;
+	cursor: pointer;
+	width: 14px;
+}
+
+.new-elements-display {
+	display: flex;
+	flex-direction: column;
+}
+
+.validate {
+	display: flex;
+	margin: 0 auto;
+	border-top: 1px solid #B3B3B3;
+  	width: 450px;
+	padding-bottom: 5px;
+}
+
+#send-validation {
+	display: flex;
+	justify-content: center;
+	width: 237px;
+	height: 36px;
+	background-color: #A7A7A7;
+	border: none;
+	cursor: pointer;
 }
