@@ -255,23 +255,32 @@ arrowIcon.addEventListener('click', function() {
 
 // Get les trash icons et add click event listener pour each
 const trashIcons = document.querySelectorAll('.trash');
+
 trashIcons.forEach(trashIcon => {
   trashIcon.addEventListener('click', async () => {
     const image = trashIcon.parentNode.querySelector('img');
     const imageUrl = image.src;
     const workId = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
     const authToken = localStorage.getItem('authToken');
+
+    // Efface l'image dans la modale
     const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${authToken}`
       }
     });
+
     if (response.ok) {
-      const work = trashIcon.parentNode;
-      console.log(work);
+      const work = trashIcon.parentNode.parentNode;
       work.remove();
-      work.remove();
+
+      // Efface l'image hors de la modale si même id
+      const imageElement = document.getElementById(workId);
+      if (imageElement) {
+        imageElement.remove();
+      }
+      
       const category = work.dataset.category;
       const categoryElement = document.querySelector(`option[value="${category}"]`);
       if (categoryElement) {
@@ -290,6 +299,7 @@ trashIcons.forEach(trashIcon => {
     }
   });
 });
+
 
 
 // Get le "Supprimer la galerie" element et add click event listener
