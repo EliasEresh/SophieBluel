@@ -253,4 +253,72 @@ arrowIcon.addEventListener('click', function() {
 
 //Supprimer les travaux
 
+// Get les trash icons et add click event listener pour each
+const trashIcons = document.querySelectorAll('.trash');
+trashIcons.forEach(trashIcon => {
+  trashIcon.addEventListener('click', async () => {
+    const image = trashIcon.parentNode.querySelector('img');
+    const imageUrl = image.src;
+    const workId = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+    const authToken = localStorage.getItem('authToken');
+    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
+    if (response.ok) {
+      const work = trashIcon.parentNode;
+      console.log(work);
+      work.remove();
+      work.remove();
+      const category = work.dataset.category;
+      const categoryElement = document.querySelector(`option[value="${category}"]`);
+      if (categoryElement) {
+        const count = categoryElement.dataset.count;
+        categoryElement.dataset.count = count - 1;
+        updateCategorySelect(category);
+      }
+    } else {
+      console.error('Error deleting image');
+      try {
+        const errorData = await response.json();
+        console.error('Error message:', errorData.message);
+      } catch (error) {
+        console.error('Error parsing response JSON:', error);
+      }
+    }
+  });
+});
+
+
+// Get le "Supprimer la galerie" element et add click event listener
+const deleteAllButton = document.querySelector('.suppress');
+deleteAllButton.addEventListener('click', async () => {
+  const authToken = localStorage.getItem('authToken');
+  const response = await fetch('http://localhost:5678/api/works', {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${authToken}`
+    }
+  });
+  if (response.ok) {
+    try {
+      const data = await response.json();
+      const works = document.querySelectorAll('.work');
+      works.forEach(work => work.remove());
+    } catch (error) {
+      console.error('Error parsing response JSON:', error);
+    }
+  } else {
+    console.error('Error deleting all images');
+    try {
+      const errorData = await response.json();
+      console.error('Error message:', errorData.message);
+    } catch (error) {
+      console.error('Error parsing response JSON:', error);
+    }
+  }
+});
+
 //Ajouter un projet
