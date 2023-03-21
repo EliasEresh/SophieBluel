@@ -446,14 +446,14 @@ footer nav ul {
 
   .modal-images {
 	display: flex;
-	flex-direction: column;
+	justify-content: space-between;
 	flex-wrap: wrap;
 	padding: 25px 64px 14px 64px;
   }
   
   .modal-images > div {
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
 	margin-bottom: 20px;
   }
   

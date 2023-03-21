@@ -175,6 +175,8 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 
 // Modale (Partie 3)
 
+// Ouvrir la modale
+
 const openModal = function (e) {
   e.preventDefault();
   const targetId = e.currentTarget.getAttribute('href').substring(1); // Enlève le leading #
@@ -220,6 +222,50 @@ document.querySelectorAll('.modal-close').forEach(a => {
   });
 });
 
+// Première page de la modale
+
+fetch(worksUrl)
+  .then(response => response.json())
+  .then(data => {
+    const modalImages = document.querySelector('.modal-images');
+
+    data.forEach((work, index) => {
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'image-container';
+    
+      const image = document.createElement('div');
+      image.className = 'image';
+    
+      const arrowIcon = document.createElement('i');
+      arrowIcon.className = 'fa-solid fa-arrows-up-down-left-right first-icon';
+    
+      const img = document.createElement('img');
+      img.src = work.imageUrl;
+    
+      const trashIcon = document.createElement('i');
+      trashIcon.className = 'fa-solid fa-trash-can trash';
+      trashIcon.setAttribute('id', work.id);
+    
+      if (index === 0) {
+        image.appendChild(arrowIcon);
+      }
+    
+      image.appendChild(img);
+      image.appendChild(trashIcon);
+    
+      const editButton = document.createElement('span');
+      editButton.className = 'edit-button';
+      editButton.textContent = 'éditer';
+    
+      imageContainer.appendChild(image);
+      imageContainer.appendChild(editButton);
+    
+      modalImages.appendChild(imageContainer);
+    });
+    
+  })
+  .catch(error => console.error(error));
+
 //Deuxième page de la modale
 
 const addPhotoButton = document.getElementById('add-photo');
@@ -253,6 +299,20 @@ arrowIcon.addEventListener('click', function() {
 
 //Supprimer les travaux
 
+// Effacer du DOM ET du serveur, 1st attemptS
+async function deleteImage(id) {
+  const imageDiv = document.querySelector(`#image${id}`).parentNode;
+  imageDiv.remove();
+
+  const response = await fetch(`/api/works/${id}`, {
+    method: "DELETE"
+  });
+
+  if (!response.ok) {
+    throw new Error("Error deleting image");
+  }
+}
+
 // Get les trash icons et add click event listener pour each
 const trashIcons = document.querySelectorAll('.trash');
 
@@ -267,7 +327,8 @@ trashIcons.forEach(trashIcon => {
     const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${authToken}`
+        'Authorization': `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4'}`,
+        'Content-Type': 'application/json'
       }
     });
 
@@ -279,6 +340,7 @@ trashIcons.forEach(trashIcon => {
       const imageElement = document.getElementById(workId);
       if (imageElement) {
         imageElement.remove();
+        await deleteImage(workId); // call deleteImage function here
       }
       
       const category = work.dataset.category;
@@ -302,6 +364,7 @@ trashIcons.forEach(trashIcon => {
 
 
 
+
 // Get le "Supprimer la galerie" element et add click event listener
 const deleteAllButton = document.querySelector('.suppress');
 deleteAllButton.addEventListener('click', async () => {
@@ -309,7 +372,8 @@ deleteAllButton.addEventListener('click', async () => {
   const response = await fetch('http://localhost:5678/api/works', {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${authToken}`
+      'Authorization': `Bearer ${authToken}`,
+      'Content-Type': 'application/json'
     }
   });
   if (response.ok) {
