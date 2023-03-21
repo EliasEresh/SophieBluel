@@ -261,6 +261,11 @@ fetch(worksUrl)
       imageContainer.appendChild(editButton);
     
       modalImages.appendChild(imageContainer);
+
+      // Add event listener for deleting the work
+      trashIcon.addEventListener('click', () => {
+        deleteWork(work.id);
+      });
     });
     
   })
@@ -299,100 +304,29 @@ arrowIcon.addEventListener('click', function() {
 
 //Supprimer les travaux
 
-// Effacer du DOM ET du serveur, 1st attemptS
-async function deleteImage(id) {
-  const imageDiv = document.querySelector(`#image${id}`).parentNode;
-  imageDiv.remove();
-
-  const response = await fetch(`/api/works/${id}`, {
-    method: "DELETE"
-  });
-
-  if (!response.ok) {
-    throw new Error("Error deleting image");
-  }
-}
-
-// Get les trash icons et add click event listener pour each
-const trashIcons = document.querySelectorAll('.trash');
-
-trashIcons.forEach(trashIcon => {
-  trashIcon.addEventListener('click', async () => {
-    const image = trashIcon.parentNode.querySelector('img');
-    const imageUrl = image.src;
-    const workId = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-    const authToken = localStorage.getItem('authToken');
-
-    // Efface l'image dans la modale
-    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4'}`,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.ok) {
-      const work = trashIcon.parentNode.parentNode;
-      work.remove();
-
-      // Efface l'image hors de la modale si même id
-      const imageElement = document.getElementById(workId);
-      if (imageElement) {
-        imageElement.remove();
-        await deleteImage(workId); // call deleteImage function here
-      }
-      
-      const category = work.dataset.category;
-      const categoryElement = document.querySelector(`option[value="${category}"]`);
-      if (categoryElement) {
-        const count = categoryElement.dataset.count;
-        categoryElement.dataset.count = count - 1;
-        updateCategorySelect(category);
-      }
-    } else {
-      console.error('Error deleting image');
-      try {
-        const errorData = await response.json();
-        console.error('Error message:', errorData.message);
-      } catch (error) {
-        console.error('Error parsing response JSON:', error);
-      }
-    }
-  });
-});
-
-
-
-
-// Get le "Supprimer la galerie" element et add click event listener
-const deleteAllButton = document.querySelector('.suppress');
-deleteAllButton.addEventListener('click', async () => {
-  const authToken = localStorage.getItem('authToken');
-  const response = await fetch('http://localhost:5678/api/works', {
+function deleteWork(workId) {
+  const url = `http://localhost:5678/api/works/${workId}`;
+  fetch(url, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${authToken}`,
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
       'Content-Type': 'application/json'
     }
-  });
-  if (response.ok) {
-    try {
-      const data = await response.json();
-      const works = document.querySelectorAll('.work');
-      works.forEach(work => work.remove());
-    } catch (error) {
-      console.error('Error parsing response JSON:', error);
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  } else {
-    console.error('Error deleting all images');
-    try {
-      const errorData = await response.json();
-      console.error('Error message:', errorData.message);
-    } catch (error) {
-      console.error('Error parsing response JSON:', error);
-    }
-  }
-});
+    return response.json();
+  })
+  .then(data => {
+    // Effacer dans le DOM aussi
+    const imageContainer = document.querySelector(`[id="${workId}"]`).parentNode;
+    imageContainer.parentNode.removeChild(imageContainer);
+  })
+  .catch(error => console.error(error));
+}
+
+
 
 //Ajouter un projet
