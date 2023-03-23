@@ -19,15 +19,35 @@ categorySelect.style.gap = "1rem";
 categorySelect.style.marginTop = "51px";
 categorySelect.style.marginBottom = "51px";
 
-fetch(categoriesUrl)
+fetch(worksUrl)
   .then(response => response.json())
   .then(data => {
-    const categories = new Set([""]);
-    data.forEach(category => categories.add(category.name));
+    const categories = new Set(["Tous"]); //Plus de Set vide, la catégorie Tous est créée
+    data.forEach(work => {
+      if(!categories.has(work.category.name)) { // Le "!" inverse la condition
+        categories.add(work.category.name);
+      }
+
+      const workElement = document.createElement("div");
+      workElement.classList.add("work");
+      workElement.dataset.category = work.category.name;
+
+      const imageElement = document.createElement("img");
+      imageElement.src = work.imageUrl;
+      workElement.appendChild(imageElement);
+
+      const titleElement = document.createElement("h3");
+      titleElement.textContent = work.title;
+      workElement.appendChild(titleElement);
+
+      gallery.appendChild(workElement);
+    });
+
+    // Plus besoin de fetch les catégories, boucle sur le Set pour créer les boutons
     categories.forEach(category => {
       const button = document.createElement("button");
-      button.textContent = category ? category : "Tous";
-      button.value = category;
+      button.textContent = category;
+      button.value = category === "Tous" ? "" : category;
       button.addEventListener("click", event => {
         const category = event.target.value;
         const worksElements = gallery.querySelectorAll(".work");
@@ -47,8 +67,8 @@ fetch(categoriesUrl)
         });
       });
 
-      button.style.backgroundColor = category === "" ? "#1D6154" : "white";
-      button.style.color = category === "" ? "white" : "#1D6154";
+      button.style.backgroundColor = category === "Tous" ? "#1D6154" : "white";
+      button.style.color = category === "Tous" ? "white" : "#1D6154";
       button.style.border = "2px solid #1D6154";
       button.style.borderRadius = "60px";
       button.style.padding = "0.5rem 2rem";
@@ -59,27 +79,6 @@ fetch(categoriesUrl)
       button.style.cursor = "pointer";
 
       categorySelect.appendChild(button);
-    });
-  })
-  .catch(error => console.error(error));
-
-fetch(worksUrl)
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(work => {
-      const workElement = document.createElement("div");
-      workElement.classList.add("work");
-      workElement.dataset.category = work.category.name;
-
-      const imageElement = document.createElement("img");
-      imageElement.src = work.imageUrl;
-      workElement.appendChild(imageElement);
-
-      const titleElement = document.createElement("h3");
-      titleElement.textContent = work.title;
-      workElement.appendChild(titleElement);
-
-      gallery.appendChild(workElement);
     });
   })
   .catch(error => console.error(error));
@@ -327,6 +326,96 @@ function deleteWork(workId) {
   .catch(error => console.error(error));
 }
 
-
-
 //Ajouter un projet
+
+// Met un event listener au bouton "Valider"
+document.getElementById("send-validation").addEventListener("click", function(event) {
+  event.preventDefault();
+  // Cherche les data dans le form inputs et le file uploadé
+  const title = document.getElementById("title-input").value;
+  const category = document.getElementById("category-input").value;
+  const file = document.getElementById("photo-addition-button").files[0];
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("category", category);
+  formData.append("image", file);
+  // Vérifie que les champs sont remplis et que le fichier a la bonne taille et le bon format
+  if (title.trim() === "" || category.trim() === "" || !file || !["image/jpeg", "image/png"].includes(file.type) || file.size > 4000000) {
+    alert("Veuillez remplir tous les champs et sélectionner une image de type jpg ou png de taille maximale 4 Mo.");
+    return;
+  }
+  // Envoie les data à l'API avec un fetch
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: formData
+  })
+  
+  .then(response => response.json())
+  .then(data => {
+    // Quand l'API répond, display le work ajouté dans la gallerie et la modale
+    // On peut accéder aux données du work ajouté depuis le `data` object renvoyé par l'API
+    console.log(data);
+    // Display les works ajoutés dans la modale et la gallery
+  })
+  .catch(error => console.error(error));
+});
+
+// Remplir la category select input avec les données de l'API
+fetch("http://localhost:5678/api/categories")
+.then(response => response.json())
+.then(data => {
+  const categoryInput = document.getElementById("category-input");
+  data.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.text = category.name;
+    categoryInput.add(option);
+  });
+})
+.catch(error => console.error(error));
+
+// Image upload
+const photoAdditionButton = document.getElementById("photo-addition-button");
+const sendValidationButton = document.getElementById("send-validation");
+
+// Met un event listener au bouton send validation
+sendValidationButton.addEventListener("click", function() {
+  const title = titleInput.value;
+  const category = categoryInput.value;
+  
+});
+
+// Met un event listener sur le bouton d'ajout de photo
+photoAdditionButton.addEventListener("change", function() {
+  sendValidationButton.style.backgroundColor = "#1D6154";
+});
+
+
+
+
+/*photoAdditionButton.addEventListener("click", function() {
+  const photoAdditionButton = document.createElement('input');
+  photoAdditionButton.type = 'file';
+  photoAdditionButton.accept = 'image/jpeg, image/png';
+  photoAdditionButton.onchange = function() {
+    const file = this.files[0];
+    if (!file || !["image/jpeg", "image/png"].includes(file.type) || file.size > 4000000) {
+      alert("Veuillez sélectionner une image de type jpg ou png de taille maximale 4 Mo.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function() {
+      const photoAddition = document.querySelector(".photo-addition");
+      const img = document.createElement("img");
+      img.src = reader.result;
+      img.classList.add("selected-image");
+      photoAddition.innerHTML = "";
+      photoAddition.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  };
+  photoAdditionButton.click();
+});*/

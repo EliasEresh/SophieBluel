@@ -563,6 +563,54 @@ footer nav ul {
 .new-elements-display {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+}
+
+.photo-addition {
+	position: relative;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	width: 440px;
+    background-color: #E8F1F6;
+    border-radius: 3px;
+    margin: 30px 0px;
+}
+
+.photo-addition-icon {
+	font-size: 58px;
+	background-color: #B9C5CC;
+    color: #E8F1F6;
+	margin-top: 28px;
+}
+
+#photo-addition-button {
+	width: 173px;
+	height: 36px;
+	background-color: #CBD6DC;
+	color: #306685;
+	border-radius: 50px;
+	border: none;
+	font-family: 'Work Sans' ;
+	font-weight: 500;
+	font-size: 14px;
+	margin-top: 21px;
+    margin-bottom: 7px;
+	cursor: pointer;
+}
+
+.photo-addition-stats {
+	font-family: 'Work Sans' ;
+	font-size: 10px;
+	font-weight: 400;
+	color: #444444;
+	margin-bottom: 19px;
+}
+
+.form-group-addition {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
 }
 
 .validate {
@@ -581,4 +629,8 @@ footer nav ul {
 	background-color: #A7A7A7;
 	border: none;
 	cursor: pointer;
+}
+
+.selected-image {
+	width: 175px;
 }
