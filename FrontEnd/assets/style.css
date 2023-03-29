@@ -585,6 +585,13 @@ footer nav ul {
 }
 
 #photo-addition-button {
+	display: none;
+}
+
+.custom-file-upload {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 173px;
 	height: 36px;
 	background-color: #CBD6DC;
@@ -597,8 +604,8 @@ footer nav ul {
 	margin-top: 21px;
     margin-bottom: 7px;
 	cursor: pointer;
-}
-
+  }
+  
 .photo-addition-stats {
 	font-family: 'Work Sans' ;
 	font-size: 10px;
@@ -633,4 +640,14 @@ footer nav ul {
 
 .selected-image {
 	width: 175px;
+}
+
+.hidden {
+	display: none;
+  }
+
+#uploaded-image {
+	width: 173px;
+	position: absolute;
+	height: 100%;
 }

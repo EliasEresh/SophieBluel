@@ -358,7 +358,6 @@ document.getElementById("send-validation").addEventListener("click", function(ev
     // Quand l'API répond, display le work ajouté dans la gallerie et la modale
     // On peut accéder aux données du work ajouté depuis le `data` object renvoyé par l'API
     console.log(data);
-    // Display les works ajoutés dans la modale et la gallery
   })
   .catch(error => console.error(error));
 });
@@ -391,31 +390,18 @@ sendValidationButton.addEventListener("click", function() {
 // Met un event listener sur le bouton d'ajout de photo
 photoAdditionButton.addEventListener("change", function() {
   sendValidationButton.style.backgroundColor = "#1D6154";
-});
+  const uploadedImage = document.getElementById("uploaded-image");
+  const file = this.files[0];
+  const reader = new FileReader();
 
+  // Display les works ajoutés dans la modale et la gallery
 
+  reader.addEventListener("load", function () {
+    uploadedImage.src = reader.result;
+    uploadedImage.classList.remove("hidden");
+  }, false);
 
-
-/*photoAdditionButton.addEventListener("click", function() {
-  const photoAdditionButton = document.createElement('input');
-  photoAdditionButton.type = 'file';
-  photoAdditionButton.accept = 'image/jpeg, image/png';
-  photoAdditionButton.onchange = function() {
-    const file = this.files[0];
-    if (!file || !["image/jpeg", "image/png"].includes(file.type) || file.size > 4000000) {
-      alert("Veuillez sélectionner une image de type jpg ou png de taille maximale 4 Mo.");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = function() {
-      const photoAddition = document.querySelector(".photo-addition");
-      const img = document.createElement("img");
-      img.src = reader.result;
-      img.classList.add("selected-image");
-      photoAddition.innerHTML = "";
-      photoAddition.appendChild(img);
-    };
+  if (file) {
     reader.readAsDataURL(file);
-  };
-  photoAdditionButton.click();
-});*/
+  }
+});
