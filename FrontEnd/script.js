@@ -2,7 +2,7 @@
 
 fetch('http://localhost:5678/api/works')
   .then(response => response.json())
-  .then(data => console.log ("toto", data))
+  .then(data => console.log ("Récupération des works", data))
   .catch(error => console.error(error));
   
 // Page principale et catégories (partie 1)
@@ -87,39 +87,6 @@ document.querySelector("#portfolio").insertBefore(categorySelect, gallery);
 
 //local storage (Partie 2)
 
-function submitForm(event) {
-  event.preventDefault(); // Prevent form from submitting normally
-
-  const email = document.getElementById("email-input").value;
-  const password = document.getElementById("password-input").value;
-
-  // Fetch method pour vérifier email et password avec le backend
-  fetch('http://localhost:5678/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email: email, password: password })
-  })
-  .then(response => {
-    console.log('response', response);
-    // Check the response status
-    if (response.ok) {
-      // Set the isLoggedIn flag in localStorage to true
-      localStorage.setItem("isLoggedIn", true);
-      // Redirige vers index.html
-      window.location.href = "index.html";
-    } else {
-      // Sinon, display error message
-      const errorMessage = document.getElementById("error-message");
-      errorMessage.style.display = "block";
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}
-
 if (localStorage.getItem("isLoggedIn") === "true") {
 
   // Remplace login par logout
@@ -177,7 +144,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 // Ouvrir la modale
 
 const openModal = function (e) {
-  e.preventDefault();
+  e.preventDefault(); //Expliquer
   const targetId = e.currentTarget.getAttribute('href').substring(1); // Enlève le leading #
   const target = document.getElementById(targetId);
   if (!target) {
@@ -190,7 +157,7 @@ const openModal = function (e) {
 
   // Event listener pour le modal wrapper, ferme la fenêtre quand on click en dehors
   target.querySelector('.modal-wrapper').addEventListener('click', function (e) {
-    e.stopPropagation();
+    e.stopPropagation(); //Expliquer
   });
 };
 
@@ -208,7 +175,7 @@ document.querySelectorAll('.modal').forEach(a => {
 
 document.querySelectorAll('.modal-display').forEach(modal => {
   modal.addEventListener('click', function (e) {
-    if (e.target === this) {
+    if (e.target === this) { //Expliquer
       closeModal(this);
     }
   });

@@ -3,8 +3,8 @@ const loginForm = document.querySelector('.login-form');
 
 // event listener for the form submit event
 loginForm.addEventListener('submit', function(event) {
-  // Pour ne pas se logger par défaut
-  event.preventDefault();
+  // Empêcher le comportement par défaut du formulaire
+  event.preventDefault(); //Expliquer
 
   // email and password input elements
   const emailInput = loginForm.querySelector('#email-input');
@@ -46,20 +46,3 @@ loginForm.addEventListener('submit', function(event) {
   });
 });
 
-if (localStorage.getItem('isLoggedIn') === 'true') {
-  // Display hidden elements
-  const hiddenElements = document.querySelectorAll('.hidden');
-  hiddenElements.forEach(element => element.style.display = 'block');
-
-  // Set header margin
-  const header = document.querySelector('header');
-  header.style.margin = '95px 0 92px 0';
-
-  // Retire category buttons
-  const categoryDiv = document.querySelector('#category-buttons');
-  categoryDiv.style.display = 'none';
-
-  // Retire login button
-  const loginNav = document.querySelector('.login-nav');
-  loginNav.style.display = 'none';
-}
