@@ -121,7 +121,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
   const modificationDisplayProject = document.querySelector(".modification-display-project");
   modificationDisplayProject.style.display = "flex";
 
-  // Set margin for header
+  // Margin du header
   const header = document.querySelector("header");
   header.style.margin = "95px 0 92px 0";
 
@@ -133,7 +133,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
   const categorySelect = document.querySelector(".category-select");
   categorySelect.style.display = "none";
 
-  // Set margin for project-display
+  // Margin du project-display
   const projectDisplay = document.querySelector(".project-display");
   projectDisplay.style.marginBottom = "92px";
 }
@@ -144,7 +144,7 @@ if (localStorage.getItem("isLoggedIn") === "true") {
 // Ouvrir la modale
 
 const openModal = function (e) {
-  e.preventDefault(); //Expliquer
+  e.preventDefault();
   const targetId = e.currentTarget.getAttribute('href').substring(1); // Enlève le leading #
   const target = document.getElementById(targetId);
   if (!target) {
@@ -157,7 +157,7 @@ const openModal = function (e) {
 
   // Event listener pour le modal wrapper, ferme la fenêtre quand on click en dehors
   target.querySelector('.modal-wrapper').addEventListener('click', function (e) {
-    e.stopPropagation(); //Expliquer
+    e.stopPropagation();
   });
 };
 
@@ -175,7 +175,7 @@ document.querySelectorAll('.modal').forEach(a => {
 
 document.querySelectorAll('.modal-display').forEach(modal => {
   modal.addEventListener('click', function (e) {
-    if (e.target === this) { //Expliquer
+    if (e.target === this) { 
       closeModal(this);
     }
   });
@@ -228,7 +228,7 @@ fetch(worksUrl)
     
       modalImages.appendChild(imageContainer);
 
-      // Add event listener for deleting the work
+      // Event listener pour le delete d'un work
       trashIcon.addEventListener('click', () => {
         deleteWork(work.id);
       });

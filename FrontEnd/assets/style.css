@@ -638,10 +638,6 @@ footer nav ul {
 	cursor: pointer;
 }
 
-.selected-image {
-	width: 175px;
-}
-
 .hidden {
 	display: none;
   }
