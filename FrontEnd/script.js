@@ -1,13 +1,5 @@
-// API
-
-fetch('http://localhost:5678/api/works')
-  .then(response => response.json())
-  .then(data => console.log ("Récupération des works", data))
-  .catch(error => console.error(error));
-  
 // Page principale et catégories (partie 1)
 const worksUrl = "http://localhost:5678/api/works";
-const categoriesUrl = "http://localhost:5678/api/categories";
 
 const gallery = document.querySelector(".gallery");
 const categorySelect = document.createElement("div");
@@ -334,6 +326,9 @@ fetch("http://localhost:5678/api/categories")
 .then(response => response.json())
 .then(data => {
   const categoryInput = document.getElementById("category-input");
+  const emptyOption = document.createElement("option");
+  emptyOption.value = "";
+  categoryInput.appendChild(emptyOption);
   data.forEach(category => {
     const option = document.createElement("option");
     option.value = category.id;
