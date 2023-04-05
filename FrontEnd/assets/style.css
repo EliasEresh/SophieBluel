@@ -114,6 +114,16 @@ nav li a:hover {
 	cursor: pointer;
 }
 
+nav li:not(.login-nav) a {
+	text-decoration: none;
+	color: black;
+	padding: 0 10px;
+  }
+  
+nav li:not(.login-nav) a:hover {
+	color: #B1663C;
+}  
+
 #introduction {
 	display: flex;
 	align-items: center;

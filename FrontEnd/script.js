@@ -275,6 +275,10 @@ function deleteWork(workId) {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
+    if (response.status === 204) {
+      // Si pas de contenu returned, pas de parse à faire
+      return null;
+    }
     return response.json();
   })
   .then(data => {
@@ -284,6 +288,7 @@ function deleteWork(workId) {
   })
   .catch(error => console.error(error));
 }
+
 
 //Ajouter un projet
 
@@ -344,8 +349,10 @@ const sendValidationButton = document.getElementById("send-validation");
 
 // Met un event listener au bouton send validation
 sendValidationButton.addEventListener("click", function() {
-  const title = titleInput.value;
-  const category = categoryInput.value;
+  const titleInput = document.getElementById("title-input");
+  const categoryInput = document.getElementById("category-input");
+  const title = titleInput ? titleInput.value : ""; // Conditions ajoutées
+  const category = categoryInput ? categoryInput.value : "";
   
 });
 
